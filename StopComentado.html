@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sorteio de Letra - Stopots</title>
+</head>
+<body>
+    <!-- Aqui começa a parte visual da página -->
+
+    <!-- Registro -->
+    <div class="register-container" id="register-container">
+        <h1>Registro</h1>
+        <form id="register-form">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+
+    <!-- Login (inicialmente oculto) -->
+    <div class="login-container" id="login-container" style="display: none;">
+        <h1>Login</h1>
+        <form id="login-form">
+            <label for="login-username">Usuário:</label>
+            <input type="text" id="login-username" name="login-username" required>
+            <label for="login-password">Senha:</label>
+            <input type="password" id="login-password" name="login-password" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p id="welcome-message" class="welcome-message"></p>
+        <p id="error-message" class="error-message"></p>
+    </div>
+
+    <!-- Sorteio (inicialmente oculto) -->
+    <div class="sorteio-container" id="sorteio-container" style="display: none;">
+        <h1>Sorteio de Letra</h1>
+        <button onclick="sortearLetra()">Sortear Letra</button>
+        <p id="letra-sorteada"></p>
+        <button onclick="mostrarRegras()">Mostrar Regras</button>
+    </div>
+
+    <!-- Regras (inicialmente oculto) -->
+    <div class="regras-container" id="regras-container" style="display: none;">
+        <h1>Regras do Jogo</h1>
+        <ul>
+            <li>Nome: <span id="nome-usuario"></span></li>
+            <li>Usuário: <span id="usuario-usuario"></span></li>
+            <li>CEP: ...</li>
+            <li>Minha sogra é: ...</li>
+            <li>Fruta: ...</li>
+            <li>Carro: ...</li>
+            <!-- Adicione mais regras conforme necessário -->
+        </ul>
+        <button onclick="mostrarSorteio()">Voltar ao Sorteio</button>
+        <button onclick="mostrarLogin()">Login</button>
+    </div>
+
+    <!-- Aqui começa o JavaScript -->
+
+    <script>
+        // Obtendo elementos da página
+        const registerContainer = document.getElementById("register-container");
+        const loginContainer = document.getElementById("login-container");
+        const sorteioContainer = document.getElementById("sorteio-container");
+        const regrasContainer = document.getElementById("regras-container");
+        const nomeUsuarioSpan = document.getElementById("nome-usuario");
+        const usuarioUsuarioSpan = document.getElementById("usuario-usuario");
+
+        // Obtendo elementos do formulário
+        const registerForm = document.getElementById("register-form");
+        const loginForm = document.getElementById("login-form");
+        const errorMessage = document.getElementById("error-message");
+        const welcomeMessage = document.getElementById("welcome-message");
+
+        // Função para sortear uma letra
+        function sortearLetra() {
+            const letras = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+            const indice = Math.floor(Math.random() * letras.length);
+            const letraSorteada = letras[indice];
+            document.getElementById("letra-sorteada").textContent = `Letra sorteada: ${letraSorteada}`;
+        }
+
+        // Função para mostrar as regras
+        function mostrarRegras() {
+            const nomeUsuario = document.getElementById("name").value;
+            const usuarioUsuario = document.getElementById("username").value;
+
+            if (nomeUsuario && usuarioUsuario) {
+                registerContainer.style.display = "none";
+                loginContainer.style.display = "none";
+                sorteioContainer.style.display = "none";
+                regrasContainer.style.display = "block";
+
+                nomeUsuarioSpan.textContent = nomeUsuario;
+                usuarioUsuarioSpan.textContent = usuarioUsuario;
+            } else {
+                alert("Por favor, preencha o nome de usuário e nome antes de prosseguir.");
+            }
+        }
+
+        // Função para mostrar a tela de sorteio
+        function mostrarSorteio() {
+            registerContainer.style.display = "none";
+            loginContainer.style.display = "none";
+            sorteioContainer.style.display = "block";
+            regrasContainer.style.display = "none";
+        }
+
+        // Função para mostrar a tela de login
+        function mostrarLogin() {
+            registerContainer.style.display = "none";
+            loginContainer.style.display = "block";
+            sorteioContainer.style.display = "none";
+            regrasContainer.style.display = "none";
+        }
+
+        // Evento de envio do formulário de registro
+        registerForm.addEventListener("submit", function (e) {
+            e.preventDefault(); // Impedindo o comportamento padrão de envio do formulário
+
+            const nome = document.getElementById("name").value; // Obtendo o valor do campo de nome
+            const usuario = document.getElementById("username").value; // Obtendo o valor do campo de usuário
+            const senha = document.getElementById("password").value; // Obtendo o valor do campo de senha
+
+            if (nome && usuario && senha) {
+                // Aqui você pode adicionar seu código de registro real, como enviar os dados para um servidor.
+                alert("Registro bem-sucedido! Agora você pode fazer login."); // Exibindo um alerta de registro bem-sucedido
+                mostrarLogin(); // Redirecionando para a tela de login após o registro
+            } else {
+                alert("Por favor, preencha todos os campos antes de registrar."); // Exibindo um alerta de campos em branco
+            }
+        });
+
+        // Evento de envio do formulário de login
+        loginForm.addEventListener("submit", function (e) {
+            e.preventDefault(); // Impedindo o comportamento padrão de envio do formulário
+
+            // Simulando a validação de login
+            const loginUsername = document.getElementById("login-username").value; // Obtendo o valor do campo de nome de usuário no formulário de login
+            const loginPassword = document.getElementById("login-password").value; // Obtendo o valor do campo de senha no formulário de login
+
+            if (loginUsername === "math" && loginPassword === "123") {
+                // Mostrar mensagem de boas-vindas com o nome do usuário
+                welcomeMessage.textContent = `Bem-vindo, ${loginUsername}!`; // Preenchendo a mensagem de boas-vindas com o nome do usuário
+
+                // Limpar mensagem de erro (se houver)
+                errorMessage.textContent = "";
+
+                // Ocultar o formulário após o login bem-sucedido
+                loginContainer.style.display = "none";
+                sorteioContainer.style.display = "block";
+            } else {
+                // Exibir mensagem de erro se as credenciais forem inválidas
+                errorMessage.textContent = "Credenciais inválidas. Tente novamente.";
+            }
+        });
+    </script>
+</body>
+</html>
